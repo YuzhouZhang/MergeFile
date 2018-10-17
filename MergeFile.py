@@ -2,8 +2,6 @@ import os
 
 import pandas as pd
 
-os.getcwd()
-
 os.chdir('/home/zhangyuzhou/PycharmProjects/MergeFile')
 
 for root, folders, files in os.walk(os.getcwd()):
@@ -29,4 +27,9 @@ for root, folders, files in os.walk(os.getcwd()):
                     df = pd.read_csv(file, engine='python', encoding='gbk')
                     print(df.shape)
                     df_total = pd.concat((df, df_total), sort=False)
-        df_total.to_csv("/home/zhangyuzhou/PycharmProjects/MergeFile/output/%s.csv" % folder, encoding='utf-8')
+                elif os.path.splitext(file)[-1] == '.xls':
+                    df = pd.read_excel(file)
+                    print(df.shape)
+                    df_total = pd.concat((df, df_total), sort=False)
+        if not df_total.empty:
+            df_total.to_csv("/home/zhangyuzhou/PycharmProjects/MergeFile/output/%s.csv" % folder, encoding='utf-8')
